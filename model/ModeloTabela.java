@@ -2,6 +2,7 @@ package model;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModeloTabela extends AbstractTableModel {
 
@@ -9,8 +10,8 @@ public class ModeloTabela extends AbstractTableModel {
     private ArrayList<Cliente> clientes;
 
     
-    public ModeloTabela(ArrayList<Cliente> clientes) {
-        this.clientes = clientes;
+    public ModeloTabela(List<Cliente> clientes2) {
+        this.clientes = (ArrayList<Cliente>) clientes2;
     }
 
     @Override
@@ -47,4 +48,9 @@ public class ModeloTabela extends AbstractTableModel {
         clientes.add(c);
         fireTableRowsInserted(clientes.size()-1, clientes.size()-1);
     }
+
+	public void setClientes(List<Cliente> listarClientes) {
+		// TODO Auto-generated method stub
+		
+	}
 }

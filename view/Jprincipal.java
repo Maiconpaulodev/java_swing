@@ -3,16 +3,17 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.List;
 
 import model.Cliente;
 import model.ModeloTabela;
+import dao.ClienteDAO;
 
 public class Jprincipal extends JFrame {
 
-    private ArrayList<Cliente> clientes;
     private ModeloTabela modeloTabela;
     private JTable table;
+    private ClienteDAO dao;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -30,10 +31,8 @@ public class Jprincipal extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 700, 500);
 
-        clientes = new ArrayList<>();
-       
-        clientes.add(new Cliente("1", "Aline", "11111111111", "aline@gmail.com", "31999998988", "Não informado"));
-        clientes.add(new Cliente("2", "Luisa", "00000000000", "luisa@gmail.com", "31999996587", "Não informado"));
+        dao = new ClienteDAO();
+        List<Cliente> clientes = dao.listarClientes();
 
         modeloTabela = new ModeloTabela(clientes);
 
@@ -45,11 +44,6 @@ public class Jprincipal extends JFrame {
         btnCadastrar.setBounds(50, 10, 100, 25);
         contentPane.add(btnCadastrar);
 
-        JTextField textField = new JTextField();
-        textField.setBounds(160, 10, 300, 25);
-        contentPane.add(textField);
-
-        
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 50, 660, 400);
         contentPane.add(scrollPane);
@@ -68,7 +62,11 @@ public class Jprincipal extends JFrame {
 
             if (id != null && nome != null) {
                 Cliente novo = new Cliente(id, nome, cpf, email, telefone, endereco);
-                modeloTabela.adicionarCliente(novo);
+                dao.adicionarCliente(novo);
+
+               
+                modeloTabela.setClientes(dao.listarClientes());
+                modeloTabela.fireTableDataChanged();
             }
         });
     }
